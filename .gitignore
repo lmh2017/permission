@@ -1,0 +1,15 @@
+*/target/
+*/classes/
+*/log/
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+*.iml
+*.idea/
+*.classpath
+*.project
+*.settings
+*.class
+*.log
