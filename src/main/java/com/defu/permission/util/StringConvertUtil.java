@@ -1,6 +1,7 @@
 package com.defu.permission.util;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
 
@@ -28,17 +29,34 @@ public class StringConvertUtil {
      */
     public static String convertMethod(Method method){
         StringBuilder convertUrl = new StringBuilder();
-
-        if(method.getAnnotation(RequestMapping.class) != null){
-            convertUrl.append(method.getAnnotation(RequestMapping.class).method()[0].name());
+        RequestMapping requestMapping = AnnotationUtils.findAnnotation(method, RequestMapping.class);
+        if(requestMapping != null){
+            convertUrl.append(requestMapping.method()[0].name());
         }
 
-        if(method.getDeclaringClass().getAnnotation(RequestMapping.class)!=null){
-            convertUrl.append(toConvert(method.getDeclaringClass().getAnnotation(RequestMapping.class).value()[0]));
+        if(AnnotationUtils.findAnnotation(method.getDeclaringClass(), RequestMapping.class)!=null){
+            convertUrl.append(toConvert(AnnotationUtils.findAnnotation(method.getDeclaringClass(), RequestMapping.class).value()[0]));
         }
 
-        if(method.getAnnotation(RequestMapping.class)!=null){
-            convertUrl.append(toConvert(method.getAnnotation(RequestMapping.class).value()[0]));
+        if(requestMapping != null){
+            switch (requestMapping.method()[0]){
+                case GET:
+                    convertUrl.append(toConvert(AnnotationUtils.findAnnotation(method, GetMapping.class).value()[0]));
+                    break;
+                case PUT:
+                    convertUrl.append(toConvert(AnnotationUtils.findAnnotation(method, PutMapping.class).value()[0]));
+                    break;
+                case POST:
+                    convertUrl.append(toConvert(AnnotationUtils.findAnnotation(method, PostMapping.class).value()[0]));
+                    break;
+                case DELETE:
+                    convertUrl.append(toConvert(AnnotationUtils.findAnnotation(method, DeleteMapping.class).value()[0]));
+                    break;
+                default:
+                    if(requestMapping.value().length>0){
+                        convertUrl.append(toConvert(requestMapping.value()[0]));
+                    }
+            }
         }
         return convertUrl.toString();
     }
