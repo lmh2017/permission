@@ -1,5 +1,6 @@
 package com.defu.permission.util;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -7,7 +8,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
-
 
 /**
  * description:
@@ -33,7 +33,7 @@ public class RedisUtil {
     }
 
     public void setString(String key,String value,long mills){
-        redisTemplate.opsForValue().set(key,value,mills,TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(key,value,mills, TimeUnit.MILLISECONDS);
     }
 
     public void setStr(String key,String value,long mills){

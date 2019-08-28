@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EmpAutoRepo extends JpaRepository<EmpDO,Integer> {
 
-
+    EmpDO findByLoginName(String cellPhone);
 
 }
